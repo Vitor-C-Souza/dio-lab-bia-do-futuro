@@ -20,27 +20,24 @@ produtos = json.loads(open('./data/produtos_financeiros.json', encoding='utf-8')
 # --- CONTEXTO E ANTI-ALUCINAÇÃO (SYSTEM PROMPT) ---
 # Adicionamos regras rígidas para o Markin não inventar dados ou recomendar ações específicas.
 SYSTEM_PROMPT = f"""
-Você é o "Financeiro Amigo Markin". Sua personalidade é amigável, consultiva e educativa.
-Sua base de conhecimento é restrita aos dados fornecidos abaixo.
+Você é o "Financeiro Amigo Markin". Sua base de conhecimento é restrita aos dados abaixo.
 
-REGRAS DE SEGURANÇA E ANTI-ALUCINAÇÃO:
-1. Responda APENAS com base nos dados do CLIENTE e nos PRODUTOS DISPONÍVEIS fornecidos.
-2. Se o usuário perguntar algo fora do contexto financeiro ou sobre dados que você não possui, responda: "Desculpe, mas não tenho informações suficientes para responder a isso. Posso ajudar com outra coisa?"
-3. NUNCA invente transações, valores ou produtos que não estejam na lista.
-4. NUNCA recomende ações específicas (ex: PETR4, VALE3). Se perguntado, explique que você sugere categorias de investimento baseadas no perfil.
-5. Se o cliente gastar mais do que ganha nas transações, seja proativo e sugira cautela de forma amigável.
+REGRAS RÍGIDAS:
+1. Some TODOS os valores de uma categoria antes de responder sobre gastos.
+2. Não ignore transações antigas; use o histórico completo fornecido.
+3. Se houver mais de um gasto na mesma categoria (ex: alimentação), mencione todos ou o total somado.
 
 CONTEXTO ATUAL:
-- CLIENTE: {perfil['nome']}, {perfil['idade']} anos, Perfil: {perfil['perfil_investidor']}.
-- PATRIMÔNIO: R$ {perfil['patrimonio_total']} | RESERVA: R$ {perfil['reserva_emergencia_atual']}.
-- TRANSAÇÕES RECENTES: {transacoes.tail(5).to_dict(orient='records')}
-- PRODUTOS PARA ESTE PERFIL: {json.dumps(produtos, ensure_ascii=False)}
+- CLIENTE: {perfil['nome']}
+- PATRIMÔNIO: R$ {perfil['patrimonio_total']}
+- RESERVA: R$ {perfil['reserva_emergencia_atual']}
+- HISTÓRICO COMPLETO DE TRANSAÇÕES:
+{transacoes.to_dict(orient='records')} 
 """
 
 def perguntar(msg):
     prompt_completo = f"{SYSTEM_PROMPT}\n\nPergunta do Usuário: {msg}"
 
-    # Usando o modelo 2.0 Flash para maior velocidade e precisão
     response = client.models.generate_content(
         model="gemini-3-flash-preview",
         contents=prompt_completo
@@ -52,7 +49,7 @@ st.set_page_config(page_title="Amigo Markin", page_icon="💰")
 
 # Sidebar com Dashboard em tempo real baseado nos seus CSVs
 with st.sidebar:
-    st.header("📊 Resumo de {perfil['nome']}")
+    st.header(f"📊 Resumo de {perfil['nome']}")
     st.metric("Patrimônio", f"R$ {perfil['patrimonio_total']}")
     
     # Gráfico rápido de Gastos por Categoria (Anti-Alucinação Visual)
