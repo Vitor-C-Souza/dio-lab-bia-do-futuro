@@ -1,149 +1,208 @@
-# 🤖 Agente Financeiro Inteligente com IA Generativa
+# 🤖 Financeiro Amigo Markin - Agente IA para Consultoria Financeira
 
-## Contexto
+Um agente financeiro inteligente baseado em IA Generativa que oferece **consultoria personalizada**, análise de investimentos e planejamento financeiro de forma proativa e acessível.
 
-Os assistentes virtuais no setor financeiro estão evoluindo de simples chatbots reativos para **agentes inteligentes e proativos**. Neste desafio, você vai idealizar e prototipar um agente financeiro que utiliza IA Generativa para:
+## 🎯 O que é o Markin?
 
-- **Antecipar necessidades** ao invés de apenas responder perguntas
-- **Personalizar** sugestões com base no contexto de cada cliente
-- **Cocriar soluções** financeiras de forma consultiva
-- **Garantir segurança** e confiabilidade nas respostas (anti-alucinação)
+**Markin** é um assistente virtual amigável e educativo que ajuda clientes a compreenderem suas finanças pessoais, otimizarem seus investimentos e tomarem decisões financeiras bem informadas. Diferente de chatbots tradicionais, Markin:
 
-> [!TIP]
-> Na pasta [`examples/`](./examples/) você encontra referências de implementação para cada etapa deste desafio.
-
----
-
-## O Que Você Deve Entregar
-
-### 1. Documentação do Agente
-
-Defina **o que** seu agente faz e **como** ele funciona:
-
-- **Caso de Uso:** Qual problema financeiro ele resolve? (ex: consultoria de investimentos, planejamento de metas, alertas de gastos)
-- **Persona e Tom de Voz:** Como o agente se comporta e se comunica?
-- **Arquitetura:** Fluxo de dados e integração com a base de conhecimento
-- **Segurança:** Como evitar alucinações e garantir respostas confiáveis?
-
-📄 **Template:** [`docs/01-documentacao-agente.md`](./docs/01-documentacao-agente.md)
+- 🎯 **Antecipa necessidades** com base no perfil e histórico do cliente
+- 💰 **Personaliza recomendações** de investimentos e produtos financeiros
+- 📊 **Analisa dados em tempo real** (transações, portfolio, objetivos)
+- 🛡️ **Garante confiabilidade** com base de conhecimento estruturada (anti-alucinação)
+- 🤝 **Adota tom consultivo** - educacional sem ser técnico demais
 
 ---
 
-### 2. Base de Conhecimento
+## 🏗️ Projeto Completo - Entregas
 
-Utilize os **dados mockados** disponíveis na pasta [`data/`](./data/) para alimentar seu agente:
+### 1. 📋 Documentação do Agente
+Especificação completa de como Markin funciona:
+- **Caso de Uso:** Consultoria de investimentos e planejamento financeiro para clientes PF
+- **Persona:** Tom amigável, consultivo e educativo
+- **Arquitetura:** Integração com base de conhecimento estruturada
+- **Segurança:** Sistema de prompts controlado para evitar alucinações
 
-| Arquivo | Formato | Descrição |
-|---------|---------|-----------|
-| `transacoes.csv` | CSV | Histórico de transações do cliente |
-| `historico_atendimento.csv` | CSV | Histórico de atendimentos anteriores |
-| `perfil_investidor.json` | JSON | Perfil e preferências do cliente |
-| `produtos_financeiros.json` | JSON | Produtos e serviços disponíveis |
-
-Você pode adaptar ou expandir esses dados conforme seu caso de uso.
-
-📄 **Template:** [`docs/02-base-conhecimento.md`](./docs/02-base-conhecimento.md)
+👉 Veja [`docs/01-documentacao-agente.md`](./docs/01-documentacao-agente.md)
 
 ---
 
-### 3. Prompts do Agente
+### 2. 📊 Base de Conhecimento Estruturada
+Dados mockados realistas para criar contexto rico:
 
-Documente os prompts que definem o comportamento do seu agente:
+| Arquivo | Descrição |
+|---------|-----------|
+| `perfil_investidor.json` | Perfil, objetivos e tolerância ao risco |
+| `transacoes.csv` | Histórico completo de transações |
+| `historico_atendimento.csv` | Registro de interações anteriores |
+| `produtos_financeiros.json` | Catálogo de produtos e serviços |
 
-- **System Prompt:** Instruções gerais de comportamento e restrições
-- **Exemplos de Interação:** Cenários de uso com entrada e saída esperada
-- **Tratamento de Edge Cases:** Como o agente lida com situações limite
-
-📄 **Template:** [`docs/03-prompts.md`](./docs/03-prompts.md)
-
----
-
-### 4. Aplicação Funcional
-
-Desenvolva um **protótipo funcional** do seu agente:
-
-- Chatbot interativo (sugestão: Streamlit, Gradio ou similar)
-- Integração com LLM (via API ou modelo local)
-- Conexão com a base de conhecimento
-
-📁 **Pasta:** [`src/`](./src/)
+👉 Veja [`docs/02-base-conhecimento.md`](./docs/02-base-conhecimento.md)
 
 ---
 
-### 5. Avaliação e Métricas
+### 3. 💬 Engenharia de Prompts
+Prompts otimizados para precisão e segurança:
+- **System Prompt:** Comportamento, restrições e diretrizes éticas
+- **Exemplos Reais:** Cenários práticos de consultoria
+- **Tratamento de Edge Cases:** Como lidar com perguntas fora do escopo
 
-Descreva como você avalia a qualidade do seu agente:
-
-**Métricas Sugeridas:**
-- Precisão/assertividade das respostas
-- Taxa de respostas seguras (sem alucinações)
-- Coerência com o perfil do cliente
-
-📄 **Template:** [`docs/04-metricas.md`](./docs/04-metricas.md)
+👉 Veja [`docs/03-prompts.md`](./docs/03-prompts.md)
 
 ---
 
-### 6. Pitch
+### 4. 💻 Aplicação Funcional
+Implementação em Python com montagem completa do contexto:
 
-Grave um **pitch de 3 minutos** (estilo elevador) apresentando:
+```python
+# src/app.py - Montagem do contexto para o agente
+contexto = f"""
+CLIENTE: {perfil['nome']}, {perfil['idade']} anos, perfil {perfil['perfil_investidor']}
+OBJETIVO: {perfil['objetivo_principal']}
+PATRIMÔNIO: R$ {perfil['patrimonio_total']} | RESERVA: R$ {perfil['reserva_emergencia_atual']}
 
-- Qual problema seu agente resolve?
-- Como ele funciona na prática?
-- Por que essa solução é inovadora?
+TRANSAÇÕES RECENTES:
+{transacoes.to_string(index=False)}
 
-📄 **Template:** [`docs/05-pitch.md`](./docs/05-pitch.md)
+ATENDIMENTOS ANTERIORES:
+{historico.to_string(index=False)}
+
+PRODUTOS DISPONÍVEIS:
+{json.dumps(produtos, indent=2, ensure_ascii=False)}
+"""
+```
+
+👉 Veja [`src/app.py`](./src/app.py)
 
 ---
 
-## Ferramentas Sugeridas
+### 5. 📈 Avaliação e Métricas
+Framework de avaliação da qualidade:
+- **Precisão** das recomendações vs. perfil do cliente
+- **Segurança** - taxa de respostas sem alucinações
+- **Coerência** - alinhamento com histórico e objetivos
 
-Todas as ferramentas abaixo possuem versões gratuitas:
-
-| Categoria | Ferramentas |
-|-----------|-------------|
-| **LLMs** | [ChatGPT](https://chat.openai.com/), [Copilot](https://copilot.microsoft.com/), [Gemini](https://gemini.google.com/), [Claude](https://claude.ai/), [Ollama](https://ollama.ai/) |
-| **Desenvolvimento** | [Streamlit](https://streamlit.io/), [Gradio](https://www.gradio.app/), [Google Colab](https://colab.research.google.com/) |
-| **Orquestração** | [LangChain](https://www.langchain.com/), [LangFlow](https://www.langflow.org/), [CrewAI](https://www.crewai.com/) |
-| **Diagramas** | [Mermaid](https://mermaid.js.org/), [Draw.io](https://app.diagrams.net/), [Excalidraw](https://excalidraw.com/) |
+👉 Veja [`docs/04-metricas.md`](./docs/04-metricas.md)
 
 ---
 
-## Estrutura do Repositório
+### 6. 🎤 Pitch - Elevador
+Apresentação estratégica de 3 minutos do projeto
+
+👉 Veja [`docs/05-pitch.md`](./docs/05-pitch.md)
+
+---
+
+## 🛠️ Stack Tecnológico
+
+| Camada | Tecnologias |
+|--------|-------------|
+| **Backend/Runtime** | Python 3.8+ |
+| **LLMs** | ChatGPT, Claude, Gemini, Ollama (via API) |
+| **Framework Web** | Streamlit, Gradio ou FastAPI |
+| **Orquestração** | LangChain, LangFlow, CrewAI |
+| **Dados** | Pandas, JSON |
+| **Documentação** | Mermaid, Draw.io |
+
+---
+
+## 📁 Estrutura do Projeto
 
 ```
-📁 lab-agente-financeiro/
+📁 dio-lab-bia-do-futuro/
 │
-├── 📄 README.md
-│
-├── 📁 data/                          # Dados mockados para o agente
-│   ├── historico_atendimento.csv     # Histórico de atendimentos (CSV)
-│   ├── perfil_investidor.json        # Perfil do cliente (JSON)
-│   ├── produtos_financeiros.json     # Produtos disponíveis (JSON)
-│   └── transacoes.csv                # Histórico de transações (CSV)
-│
-├── 📁 docs/                          # Documentação do projeto
-│   ├── 01-documentacao-agente.md     # Caso de uso e arquitetura
-│   ├── 02-base-conhecimento.md       # Estratégia de dados
-│   ├── 03-prompts.md                 # Engenharia de prompts
-│   ├── 04-metricas.md                # Avaliação e métricas
-│   └── 05-pitch.md                   # Roteiro do pitch
+├── 📄 README.md                      # Este arquivo
 │
 ├── 📁 src/                           # Código da aplicação
-│   └── app.py                        # (exemplo de estrutura)
+│   ├── app.py                        # Montagem do contexto e integração
+│   └── README.md                     # Instruções técnicas
+│
+├── 📁 data/                          # Base de conhecimento mockada
+│   ├── perfil_investidor.json        # Perfil e preferências do cliente
+│   ├── produtos_financeiros.json     # Catálogo de produtos
+│   ├── transacoes.csv                # Histórico de transações
+│   ├── historico_atendimento.csv     # Histórico de interações
+│   └── README.md                     # Descrição dos dados
+│
+├── 📁 docs/                          # Documentação completa
+│   ├── 01-documentacao-agente.md     # Caso de uso, persona, arquitetura
+│   ├── 02-base-conhecimento.md       # Estratégia de dados e contexto
+│   ├── 03-prompts.md                 # System prompt e exemplos
+│   ├── 04-metricas.md                # Avaliação de qualidade
+│   └── 05-pitch.md                   # Apresentação executiva
 │
 ├── 📁 assets/                        # Imagens e diagramas
-│   └── ...
+│   ├── README.md                     # Guia do laboratório
+│   └── RoteiroLab.md                 # Roadmap de desenvolvimento
 │
-└── 📁 examples/                      # Referências e exemplos
-    └── README.md
+└── 📁 examples/                      # Exemplos de implementação
+    └── README.md                     # Referências práticas
 ```
 
 ---
 
-## Dicas Finais
+## ✨ Funcionalidades Principais
 
-1. **Comece pelo prompt:** Um bom system prompt é a base de um agente eficaz
-2. **Use os dados mockados:** Eles garantem consistência e evitam problemas com dados sensíveis
-3. **Foque na segurança:** No setor financeiro, evitar alucinações é crítico
-4. **Teste cenários reais:** Simule perguntas que um cliente faria de verdade
-5. **Seja direto no pitch:** 3 minutos passam rápido, vá ao ponto
+### 🎯 Análise Personalizada
+- Avalia o perfil de risco do cliente (conservador, moderado, agressivo)
+- Analisa histórico de transações e gastos
+- Identifica padrões de comportamento financeiro
+
+### 💡 Recomendações Inteligentes
+- Sugestões de produtos alinhadas ao perfil
+- Alertas sobre gastos excessivos
+- Oportunidades de investimento personalizadas
+
+### 📚 Educação Financeira
+- Explica conceitos de forma acessível
+- Responde dúvidas sobre produtos financeiros
+- Ajuda no planejamento de metas
+
+### 🛡️ Confiabilidade
+- Respostas baseadas apenas em dados disponíveis
+- Sistema de prompts controlado (zero alucinações)
+- Histórico de interações rastreável
+
+---
+
+## 🚀 Como Usar
+
+### 1. Preparar o Ambiente
+```bash
+pip install pandas
+```
+
+### 2. Estruturar o Contexto
+```python
+from src.app import contexto
+# contexto contém todos os dados necessários para o agente
+```
+
+### 3. Integrar com LLM
+Utilize qualquer LLM via API:
+- **OpenAI GPT-4:** Melhor custo-benefício para produção
+- **Claude:** Excelente para análise de documentos
+- **Gemini:** Bom custo-benefício
+- **Ollama:** Para modelos locais (privacidade)
+
+---
+
+## 📖 Dicas de Implementação
+
+1. **Comece pelo system prompt:** Um bom prompt é a base de tudo
+2. **Use dados mockados:** Garante consistência e funciona offline
+3. **Teste cenários de edge case:** Perguntas fora do escopo ou ambíguas
+4. **Valide respostas:** Compare com o perfil esperado do cliente
+5. **Itere rápido:** Use exemplos reais de clientes para melhorar
+
+---
+
+## 📝 Licença
+
+Este projeto foi desenvolvido como laboratório de inovação em IA para o setor financeiro.
+
+---
+
+## 📞 Mais Informações
+
+Para detalhes técnicos completos, consulte a documentação em [`docs/`](./docs/).
